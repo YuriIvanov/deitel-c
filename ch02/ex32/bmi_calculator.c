@@ -40,4 +40,6 @@ int main(void) {
     double bmi = calculateBmi(weight, height);
 
     printBmi(bmi);
+
+    return EXIT_SUCCESS;
 }
