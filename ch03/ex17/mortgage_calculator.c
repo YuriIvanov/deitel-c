@@ -58,7 +58,7 @@ int main(void) {
         const int mortgageTermInYears = getMortgageTermInYears();
         const float interestRate = getInterestRate();
 
-        int monthlyPayableInterestInDollars =
+        const int monthlyPayableInterestInDollars =
             calculateMonthlyPayableInterest(mortgageAmountInDollars, mortgageTermInYears, interestRate);
         printMonthlyPayableInterest(monthlyPayableInterestInDollars);
 
