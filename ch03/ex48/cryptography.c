@@ -19,32 +19,22 @@ static int getData(void) {
 }
 
 static int add7AndRemainderEncryptionStep(const int data) {
-    int encryptedData = 0;
-
     // From leftmost digit to rightmost.
-    encryptedData += abs((((data / 1000) + 7) % 10) * 1000);
-    encryptedData += abs((((data / 100 % 10) + 7) % 10) * 100);
-    encryptedData += abs((((data / 10 % 10) + 7) % 10) * 10);
-    encryptedData += abs((((data % 10) + 7) % 10));
+    const int thousands = ((data / 1000) + 7) % 10;
+    const int hundreds = ((data / 100 % 10) + 7) % 10;
+    const int tens = ((data / 10 % 10) + 7) % 10;
+    const int ones = ((data % 10) + 7) % 10;
 
-    return encryptedData;
+    return (thousands * 1000) + (hundreds * 100) + (tens * 10) + ones;
 }
 
 static int swapEncryptionStep(const int data) {
-    int encryptedData = 0;
-
     const int firstDigit = data / 1000;
     const int secondDigit = data / 100 % 10;
     const int thirdDigit = data / 10 % 10;
     const int fourthDigit = data % 10;
 
-    // Swap digits.
-    encryptedData += thirdDigit * 1000; // First to third.
-    encryptedData += fourthDigit * 100; // Second to fourth.
-    encryptedData += firstDigit * 10;   // Third to first.
-    encryptedData += secondDigit;       // Fourth to second.
-
-    return encryptedData;
+    return (thirdDigit * 1000) + (fourthDigit * 100) + (firstDigit * 10) + secondDigit;
 }
 
 static int encrypt(const int data) {
@@ -54,15 +44,13 @@ static int encrypt(const int data) {
 }
 
 static int substract7AndMultiplyDencryptionStep(const int data) {
-    int dencryptedData = 0;
-
     // From leftmost digit to rightmost.
-    dencryptedData += abs((((data / 1000) - 7) % 10) * 1000);
-    dencryptedData += abs((((data / 100) - 7) % 10) * 100);
-    dencryptedData += abs((((data / 10) - 7) % 10) * 10);
-    dencryptedData += abs((((data % 10 + 10) - 7) % 10));
+    const int thousands = (((data / 1000) + 10) - 7) % 10;
+    const int hundreds = (((data / 100) + 10) - 7) % 10;
+    const int tens = (((data / 10) + 10) - 7) % 10;
+    const int ones = (((data % 10) + 10) - 7) % 10;
 
-    return dencryptedData;
+    return (thousands * 1000) + (hundreds * 100) + (tens * 10) + ones;
 }
 
 static int swapDecryptionStep(const int data) {
@@ -88,7 +76,7 @@ static int decrypt(const int data) {
             swapDecryptionStep(data));
 }
 
-void printResults(const int encryptedData, const int decryptedData) {
+static void printResults(const int encryptedData, const int decryptedData) {
     printf(
         "Encrypted data: %d\n"
         "Decrypted data: %d\n",
@@ -96,6 +84,7 @@ void printResults(const int encryptedData, const int decryptedData) {
         decryptedData);
 }
 
+// Encrypt and decrypt positive four-digit numbers.
 int main(void) {
     const int data = getData();
     const int encryptedData = encrypt(data);
