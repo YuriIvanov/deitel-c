@@ -4,6 +4,9 @@
 **/bin
 **/obj
 
+# Code Blocks
+**/doxygen
+
 #Visual Studio
 
 # User-specific files

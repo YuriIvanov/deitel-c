@@ -27,7 +27,7 @@ enum months_e {
 struct date_t {
     int year;
     int month; // 1-12
-    int day; // 1-31
+    int dayOfMonth; // 1-31
 };
 
 struct target_heart_rate_t {
@@ -41,6 +41,11 @@ static const int daysInMonth[] = {
     0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
 };
 
+/** \brief Determines whether specified year is leap of not.
+ *
+ * \param year const int Year to check.
+ * \return bool True if year is leap, false otherwise.
+ */
 static bool isLeapYear(const int year) {
     if (((year % 4 == 0) &&(year % 100!= 0)) || (year%400 == 0)) {
         return true;
@@ -49,6 +54,12 @@ static bool isLeapYear(const int year) {
     }
 }
 
+/** \brief Get number of days for specified month in specified year.
+ *
+ * \param month const enummonths_e Month to get days from.
+ * \param year const int Year which month we get days from.
+ * \return int Number of days in month.
+ */
 static int daysInMonthInCurrentYear(const enum months_e month, const int year) {
     // Special case for leap year February.
     if (month == MONTH_FEBRUARY) {
@@ -60,6 +71,14 @@ static int daysInMonthInCurrentYear(const enum months_e month, const int year) {
     return daysInMonth[month];
 }
 
+
+/** \brief Determine whether specified day in correct for specified month and year.
+ *
+ * \param day const int Day to check.
+ * \param month const enummonths_e Month which day we check.
+ * \param year const int Year which day we check.
+ * \return bool True if day is correct, false otherwise.
+ */
 static bool isCorrectDayInMonthAndYear(const int day, const enum months_e month, const int year) {
     const int daysInMonth = daysInMonthInCurrentYear(month, year);
 
@@ -70,6 +89,10 @@ static bool isCorrectDayInMonthAndYear(const int day, const enum months_e month,
     }
 }
 
+/** \brief Get year from user.
+ *
+ * \return int Year.
+ */
 static int getYear(void) {
     int year = MINIMAL_YEAR - 1;
 
@@ -85,7 +108,10 @@ static int getYear(void) {
     return year;
 }
 
-// Returns month index from 1 to 12. Use it with daysInMonth array.
+/** \brief Get month from user in form of index from 1 to 12. Use it with daysInMonth array.
+ *
+ * \return int Month of year.
+ */
 static int getMonthOfYear(void) {
     int month = -1;
 
@@ -101,6 +127,13 @@ static int getMonthOfYear(void) {
     return month;
 }
 
+/** \brief Get day of month from user.
+ *
+ * \param month const enummonths_e Month which day we want to get.
+ * \param year const int Year which day we want to get.
+ * \return int Day of month.
+ *
+ */
 static int getDayOfMonthAndYear(const enum months_e month, const int year) {
     int day = -1;
 
@@ -116,6 +149,11 @@ static int getDayOfMonthAndYear(const enum months_e month, const int year) {
     return day;
 }
 
+/** \brief Get date from user.
+ *
+ * \param date struct date_t* Stores date received from user.
+ * \return void
+ */
 static void getDate(struct date_t* date) {
     const int year = getYear();
     const int month = getMonthOfYear();
@@ -123,23 +161,63 @@ static void getDate(struct date_t* date) {
 
     date->year = year;
     date->month = month;
-    date->day = day;
+    date->dayOfMonth = day;
 }
 
+/** \brief Calculates person age in full years.
+ *
+ * \param birthday const struct date_t* Person birthday.
+ * \param currentDate const struct date_t* Current date.
+ * \return int Age in full years. Negative number means that birthday or current date is incorrect.
+ */
 static int calculateAge(const struct date_t* birthday, const struct date_t* currentDate) {
+    // We may also check that birthday is less than current day.
+    // But let's omit this for simplicity of the whole program.
+    int years = currentDate->year - birthday->year;
 
+    const int monthDiff = currentDate->month - birthday->month;
+    if (monthDiff < 0) {
+        // We didn't reach birthday in this year yet.
+        --years;
+    } else if (monthDiff == 0) {
+        // We have to check days now in a similar way we've checked months.
+        const int daysDiff = currentDate->dayOfMonth - birthday->dayOfMonth;
+        if (daysDiff < 0) {
+            // We didn't reach birthday in this month yet.
+            --years;
+        }
+    }
+    return years;
 }
 
+/** \brief Calculates person maximum heart rate.
+ *
+ * \param personAgeInYears const int Person's age in years.
+ * \return int Calculated maximum heart rate.
+ */
 static int calculateMaximumHeartRate(const int personAgeInYears) {
     return 220 - personAgeInYears;
 }
 
+/** \brief Calculates minimum and maximum target heart rate.
+ *
+ * \param maximumHeartRate const int Person's maximum heart rate.
+ * \param targetHeartRate struct target_heart_rate_t* Stores results of calculation.
+ * \return void
+ */
 static void calculateTargetHeartRate(const int maximumHeartRate,
                                      struct target_heart_rate_t* targetHeartRate) {
     targetHeartRate->minimal = maximumHeartRate * MINIMAL_TARGET_HEART_RATE_PERCENTAGE;
     targetHeartRate->maximum = maximumHeartRate * MAXIMUM_TARGET_HEART_RATE_PERCENTAGE;
 }
 
+/** \brief Print person's heart rate report
+ *
+ * \param personAgeInYears const int Person's age.
+ * \param maximumHeartRate const int Person's maximum heart rate.
+ * \param targetHeartRate const struct target_heart_rate_t* Person's minimum and maximum target heart rates.
+ * \return void
+ */
 static void printHeartRateReport(const int personAgeInYears,
                                  const int maximumHeartRate,
                                  const struct target_heart_rate_t* targetHeartRate) {
@@ -158,13 +236,19 @@ int main(void) {
     struct date_t birthday = {0};
     struct date_t currentDate = {0};
 
-    puts("Enter your birth date.");
-    getDate(&birthday);
+    int personAgeInYears = -1;
+    do {
+        puts("Enter your birth date.");
+        getDate(&birthday);
 
-    puts("Enter current date.");
-    getDate(&currentDate);
+        puts("Enter current date.");
+        getDate(&currentDate);
 
-    const int personAgeInYears = calculateAge(&birthday, &currentDate);
+        personAgeInYears = calculateAge(&birthday, &currentDate);
+        if (personAgeInYears < 0) {
+            puts("Are you from the future? :) Try to enter correct dates.");
+        }
+    } while (personAgeInYears < 0);
 
     const int maximumHeartRate = calculateMaximumHeartRate(personAgeInYears);
 
