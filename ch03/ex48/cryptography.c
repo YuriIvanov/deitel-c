@@ -1,16 +1,19 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
+#include <stdbool.h>
+
+static bool isFourDigitPositiveInteger(const int value) {
+    return (value >= 1000 && value <= 9999);
+}
 
 static int getData(void) {
     int data = 0;
 
-    // We need only four-digit values.
-    while (data < 1000 || data > 9999) {
+    while (!isFourDigitPositiveInteger(data)) {
         printf("Enter data to encrypt (four-digit integer): ");
         scanf("%d", &data);
 
-        if (data < 1000 || data > 9999) {
+        if (!isFourDigitPositiveInteger(data)) {
             puts("You've entered wrong data. Try, again.");
         }
     }
