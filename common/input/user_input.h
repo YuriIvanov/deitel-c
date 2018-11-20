@@ -1,6 +1,14 @@
 #ifndef USER_INPUT_H_INCLUDED
 #define USER_INPUT_H_INCLUDED
 
+/*
+* Simple user input library that makes writing of exercises easier.
+* Provide simple functionality to get user input from console.
+* Note: library does not protect you from integer overflow problem of scanf
+* that we are using under the hood. Writing of robust user input library is too redundant for
+* learning purposes.
+* See https://stackoverflow.com/questions/28007600/detecting-integral-overflow-with-scanf for more info.
+*/
 
 /** \brief Get integer value from user console input.
  *
