@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
-#define NUMBER_OF_ROWS 9
 #define DIAMOND_SYMBOL '*'
 
 static void printDiamondRow(const int width, const int numberOfSymbols) {
@@ -60,8 +60,28 @@ static void printDiamond(const int numberOfRows) {
     }
 }
 
+static int getDiamondSize(void) {
+    int diamondSize = -1;
+
+    bool isUserInputValid = false;
+    while (!isUserInputValid) {
+        printf("%s", "Enter diamond size (positive odd number): ");
+        const int scanfResult = scanf("%d", &diamondSize);
+
+        isUserInputValid = scanfResult == 1 && !(diamondSize % 2 <= 0);
+
+        if (!isUserInputValid) {
+            fflush(stdin);
+            puts("You've entered incorrect diamond size. Try again.");
+        }
+    };
+
+    return diamondSize;
+}
+
 int main(void) {
-    printDiamond(NUMBER_OF_ROWS);
+    const int diamondSize = getDiamondSize();
+    printDiamond(diamondSize);
 
     return EXIT_SUCCESS;
 }
