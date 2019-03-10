@@ -126,7 +126,7 @@ static double getWeeklySalesAmount(void) {
     double weeklySales = -1.0;
 
     do {
-        printf("Enter weekly sales amount: ");
+        printf("%s", "Enter weekly sales amount: ");
 
         const int scanfResult = scanf("%lf", &weeklySales);
         if (scanfResult != 1) {
@@ -157,7 +157,7 @@ static int getNumberOfProducedItems(void) {
     int numberOfProducedItems = -1;
 
     do {
-        printf("Enter number of items produced by pieceworker: ");
+        printf("%s", "Enter number of items produced by pieceworker: ");
 
         const int scanfResult = scanf("%d", &numberOfProducedItems);
         if (scanfResult != 1) {
@@ -176,7 +176,7 @@ static double getItemPrice(void) {
     double itemPrice = -1.0;
 
     do {
-        printf("Enter item price: ");
+        printf("%s", "Enter item price: ");
 
         const int scanfResult = scanf("%lf", &itemPrice);
         if (scanfResult != 1) {
