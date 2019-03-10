@@ -16,7 +16,7 @@ static double getExpenses(const char* expensesName) {
         }
 
         if (expenses < 0.0) {
-            printf("You've entered incorrect %s expenses amount. Try again.", expensesName);
+            printf("You've entered incorrect %s expenses amount. Try again.\n", expensesName);
         }
     } while (expenses < 0.0);
 
