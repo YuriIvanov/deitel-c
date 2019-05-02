@@ -16,7 +16,7 @@ int getSideOfSquare(void) {
     return side;
 }
 
-void printFullRow(const int numberOfColumns) {
+void printHollowSquareFullRow(const int numberOfColumns) {
     int columns = numberOfColumns;
     while (columns > 0) {
         printf("%s", "*");
@@ -25,10 +25,10 @@ void printFullRow(const int numberOfColumns) {
     printf("%s", "\n");
 }
 
-void printHollowRow(const int numberOfColumns) {
+void printHollowSquareHollowRow(const int numberOfColumns) {
     // It is impossible to print hollow row with number of columns less than 3.
     if (numberOfColumns < 3) {
-        printFullRow(numberOfColumns);
+        printHollowSquareFullRow(numberOfColumns);
         return;
     }
 
@@ -55,24 +55,24 @@ void drawHollowSquare(const int squareSide) {
     if (squareSide < 3) {
         int rows = squareSide;
         while (rows > 0) {
-            printFullRow(squareSide);
+            printHollowSquareFullRow(squareSide);
             --rows;
         }
         return;
     }
 
     // Print first row.
-    printFullRow(squareSide);
+    printHollowSquareFullRow(squareSide);
 
     // Print hollowed rows.
     // Square side - first and last rows.
     int rows = squareSide - 2;
     while (rows > 0) {
-        printHollowRow(squareSide);
+        printHollowSquareHollowRow(squareSide);
         --rows;
     }
     // Print last row.
-    printFullRow(squareSide);
+    printHollowSquareFullRow(squareSide);
 }
 
 int main(void) {
