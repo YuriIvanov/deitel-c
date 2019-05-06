@@ -277,7 +277,10 @@ static int getDiamondSize(void) {
         printf("%s", "Enter diamond size (positive odd number): ");
         const int scanfResult = scanf("%d", &diamondSize);
 
-        isUserInputValid = scanfResult == 1 && !(diamondSize % 2 == 0);
+        isUserInputValid =
+            scanfResult == 1 &&
+            diamondSize > 0 &&
+            !(diamondSize % 2 == 0);
 
         if (!isUserInputValid) {
             fflush(stdin);

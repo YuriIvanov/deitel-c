@@ -1,6 +1,3 @@
-// Fig. 3.10: fig03_10.c
-// Analysis of examination results
-
 #include <stdio.h>
 
 int getResult(void) {

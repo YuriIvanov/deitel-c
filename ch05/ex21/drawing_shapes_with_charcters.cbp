@@ -2,7 +2,7 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="drawing_shapes_with_charcters" />
+		<Option title="drawing_shapes_with_characters" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
@@ -31,7 +31,7 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="drawing_shapes_with_charcters.c">
+		<Unit filename="drawing_shapes_with_characters.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Extensions>
